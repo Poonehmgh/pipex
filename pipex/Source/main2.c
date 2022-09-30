@@ -6,7 +6,7 @@
 /*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 10:33:43 by pooneh            #+#    #+#             */
-/*   Updated: 2022/09/29 17:08:52 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/09/30 14:17:55 by pooneh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	set_data(t_pipex *data, int argc, char **argv, char **envp)
 	data->envp = envp;
 	data->copt = (char ***)malloc(sizeof(char **) * (argc + 1));
 	data->path = (char **)malloc(sizeof(char *) * (argc + 1)); // check and free
-	while (i < argc - 3)
+	while (i < data->num_of_processes)
 	{
 		data->copt[i] = command_options(argv[i + 2]);
 		data->path[i] = path_of_command(data->copt[i][0], envp);
@@ -34,6 +34,8 @@ void	set_data(t_pipex *data, int argc, char **argv, char **envp)
 		// printf("i: %d	path: %s copt 1: %s	\n", i, data->path[i], data->copt[i][1]);
 		i++;
 	}
+	data->path[i] = NULL;
+	data->copt[i] = NULL;
 }
 
 void	set_data_check_input(t_pipex *data, char **argv, char **envp, int argc)
@@ -48,9 +50,9 @@ void	set_data_check_input(t_pipex *data, char **argv, char **envp, int argc)
 		here_doc_processing(data, argv, argc, envp);
 	if (!data->hd)
 	{
+		data->num_of_processes = argc - 3;
 		set_data(data, argc, argv, envp);
 		open_files(data);
-		data->num_of_processes = argc - 3;
 	}
 }
 
@@ -68,6 +70,33 @@ void	child_redirection(t_pipex *data, int fd[MAX_FD][2], int i)
 	exit(2);
 }
 
+void	free_2d(char **a)
+{
+	int	i;
+
+	i = 0;
+	while (a[i])
+	{
+		free(a[i]);
+		i++;
+	}
+}
+
+void	free_stuff(t_pipex *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->path[i])
+	{
+		// free_2d(data->copt[i]);
+		free(data->path[i]);
+		i++;
+	}
+	free(data->path);
+	free(data->copt);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	int		i;
@@ -78,7 +107,7 @@ int	main(int argc, char **argv, char **envp)
 	set_data_check_input(&data, argv, envp, argc);
 	piping(&data, fd);
 	dup2(data.fd_in, STDIN_FILENO);
-	dup2(data.fd_out, STDOUT_FILENO);
+	// dup2(data.fd_out, STDOUT_FILENO);
 	i = 1;
 	while (i <= data.num_of_processes)
 	{
@@ -89,5 +118,10 @@ int	main(int argc, char **argv, char **envp)
 		i++;
 	}
 	close_fds(fd, data);
+	// free_stuff(&data);
 	wait_for_children(pid, data);
 }
+//free stuff: 73 lks
+//hd redirection
+//5 errors in tester
+//exit code? 

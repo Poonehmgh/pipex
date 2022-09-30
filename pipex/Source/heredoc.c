@@ -6,7 +6,7 @@
 /*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:57:10 by pooneh            #+#    #+#             */
-/*   Updated: 2022/09/29 17:06:29 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/09/30 14:13:15 by pooneh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	run_here_doc(t_pipex *data)
 	free(buf);
 	close(tmp);
 	data->fd_in = open(".hd", O_RDONLY);
-	dup2(data->fd_in, STDIN_FILENO);
+	// dup2(data->fd_in, STDIN_FILENO);
 }
 
 void	here_doc_processing(t_pipex *data, char **argv, int argc, char **envp)

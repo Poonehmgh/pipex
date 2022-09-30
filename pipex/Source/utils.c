@@ -6,7 +6,7 @@
 /*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:58:45 by pooneh            #+#    #+#             */
-/*   Updated: 2022/09/29 17:07:23 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/09/30 14:32:40 by pooneh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,13 @@ void	open_files(t_pipex *data)
 
 	file1 = data->argv[1];
 	data->fd_in = open(file1, O_RDONLY);
+	if (data->fd_in < 0)
+	{
+		perror("Error!");
+		exit(2);
+	}
 	file2 = data->argv[data->argc - 1];
-	data->fd_out = open(file2, O_WRONLY);
+	data->fd_out = open(file2, O_TRUNC | O_CREAT | O_WRONLY, 0000644);
 }
 
 void	close_fds(int fd[MAX_FD][2], t_pipex data)
