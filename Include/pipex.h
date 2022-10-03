@@ -6,7 +6,7 @@
 /*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 20:01:08 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/09/29 17:01:28 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/10/03 14:49:46 by pooneh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,14 @@ void	close_fds(int	fd[MAX_FD][2], t_pipex data);
 void	wait_for_children(int *pid, t_pipex data);
 void	check_for_success(int n);
 void piping(t_pipex *data, int fd[MAX_FD][2]);
+
+void	free_2d(char **a);
+void	free_stuff(t_pipex *data);
+
+void	error_execution(t_pipex *data, int i);
+void	general_error(char *msg);
+
+
 
 
 #endif

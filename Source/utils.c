@@ -6,7 +6,7 @@
 /*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:58:45 by pooneh            #+#    #+#             */
-/*   Updated: 2022/09/30 14:32:40 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/10/03 14:48:35 by pooneh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,17 @@ void	open_files(t_pipex *data)
 	data->fd_in = open(file1, O_RDONLY);
 	if (data->fd_in < 0)
 	{
-		perror("Error!");
-		exit(2);
+		general_error(file1);
+		// perror("Error!");
+		// exit(EXIT_FAILURE);
 	}
 	file2 = data->argv[data->argc - 1];
 	data->fd_out = open(file2, O_TRUNC | O_CREAT | O_WRONLY, 0000644);
+	if (data->fd_out < 0)
+	{
+		perror("Error!");
+		exit(EXIT_FAILURE);
+	}
 }
 
 void	close_fds(int fd[MAX_FD][2], t_pipex data)
@@ -58,7 +64,7 @@ void	check_for_success(int n)
 	if (n < 0)
 	{
 		perror("Unsuccessfull forking/piping ! \n");
-		exit(2);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -70,7 +76,10 @@ void	piping(t_pipex *data, int fd[MAX_FD][2])
 	while (i < data->num_of_processes)
 	{
 		if (pipe(fd[i]) < 0)
-			return ;
+			{
+				perror("Error!");
+				exit(EXIT_FAILURE);
+			}
 		i++;
 	}
 }

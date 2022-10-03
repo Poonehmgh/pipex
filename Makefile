@@ -2,7 +2,7 @@ NAME = pipex
 
 SRC_DIR = Source
 
-SRC = $(SRC_DIR)/main2.c $(SRC_DIR)/paths.c $(SRC_DIR)/utils.c $(SRC_DIR)/heredoc.c
+SRC = $(SRC_DIR)/main2.c $(SRC_DIR)/paths.c $(SRC_DIR)/utils.c $(SRC_DIR)/heredoc.c $(SRC_DIR)/errors.c
 
 OBJ = $(SRC: *.c=*.o)
 

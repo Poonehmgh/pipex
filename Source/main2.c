@@ -6,7 +6,7 @@
 /*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 10:33:43 by pooneh            #+#    #+#             */
-/*   Updated: 2022/09/30 14:17:55 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/10/03 15:23:13 by pooneh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	set_data(t_pipex *data, int argc, char **argv, char **envp)
 	{
 		data->copt[i] = command_options(argv[i + 2]);
 		data->path[i] = path_of_command(data->copt[i][0], envp);
-		if (!data->path[i])
-		{
-			perror("\nError! Command does not exist!\n");
-			exit(2);
-		}	
+		// if (!data->path[i])
+		// {
+		// 	perror("\nError! Command does not found ");
+		// 	// exit(EXIT_FAILURE);
+		// }	
 		// printf("i: %d	path: %s copt 1: %s	\n", i, data->path[i], data->copt[i][1]);
 		i++;
 	}
@@ -43,8 +43,8 @@ void	set_data_check_input(t_pipex *data, char **argv, char **envp, int argc)
 	data->hd = 0;
 	if (argc < 5)
 	{
-		ft_printf("Error! Not enough arguments!");
-		exit(0);
+		perror("not enough arguments");
+		exit(EXIT_FAILURE);
 	}
 	if (!ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])))
 		here_doc_processing(data, argv, argc, envp);
@@ -66,8 +66,7 @@ void	child_redirection(t_pipex *data, int fd[MAX_FD][2], int i)
 		dup2(fd[i][1], STDOUT_FILENO);
 	close_fds(fd, *data);
 	execve(data->path[i - 1], data->copt[i - 1], data->envp);
-	perror("Error while executing! ");
-	exit(2);
+	error_execution(data, i - 1);
 }
 
 void	free_2d(char **a)
@@ -80,6 +79,7 @@ void	free_2d(char **a)
 		free(a[i]);
 		i++;
 	}
+	free(a);
 }
 
 void	free_stuff(t_pipex *data)
@@ -89,7 +89,7 @@ void	free_stuff(t_pipex *data)
 	i = 0;
 	while (data->path[i])
 	{
-		// free_2d(data->copt[i]);
+		free_2d(data->copt[i]);
 		free(data->path[i]);
 		i++;
 	}
@@ -118,10 +118,10 @@ int	main(int argc, char **argv, char **envp)
 		i++;
 	}
 	close_fds(fd, data);
-	// free_stuff(&data);
+	free_stuff(&data);
 	wait_for_children(pid, data);
 }
-//free stuff: 73 lks
+
 //hd redirection
-//5 errors in tester
-//exit code? 
+//commands with paths
+//bash implementation

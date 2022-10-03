@@ -6,7 +6,7 @@
 /*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:57:10 by pooneh            #+#    #+#             */
-/*   Updated: 2022/09/30 14:13:15 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/09/30 18:10:17 by pooneh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	here_doc_processing(t_pipex *data, char **argv, int argc, char **envp)
 
     i = 0;
 	data->num_of_processes = argc - 4;
-    data->copt = (char ***)malloc(sizeof(char **) * (argc + 1));
+    data->copt = (char ***)malloc(sizeof(char **) * (argc + 1)); //chk later
 	data->path = (char **)malloc(sizeof(char *) * (argc + 1));
 	while (i < data->num_of_processes)
 	{
@@ -54,11 +54,11 @@ void	here_doc_processing(t_pipex *data, char **argv, int argc, char **envp)
 	}
 	data->copt[i] = NULL;
 	data->path[i] = NULL;
-	data->fd_out = open(argv[argc - 1], O_WRONLY);
+	data->fd_out = open(argv[argc - 1], O_TRUNC | O_CREAT | O_WRONLY, 0000644);
 	data->argv = argv;
 	if (data->fd_out < 0)
 	{
-		perror("Error! Invalid file!\n");
+		perror("Error! ");
 		exit(0);
 	}
 	data->hd = 1;
