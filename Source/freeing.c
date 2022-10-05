@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:48:24 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/05 13:10:03 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:17:48 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	free_stuff(t_pipex *data)
 		free_2d(data->copt[i]);
 		if (data->path[i])
 			free(data->path[i]);
+			
 		i++;
 	}
 	free(data->path);

@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:58:45 by pooneh            #+#    #+#             */
-/*   Updated: 2022/10/05 12:14:01 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/10/05 19:37:44 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ void	close_fds(int fd[MAX_FD][2], t_pipex data)
 		close(fd[i][1]);
 		i++;
 	}
+	if (data.fd_in) //added later 
+		close(data.fd_in);
+	if (data.fd_out) //added later
+		close(data.fd_out);
 }
 
 void	wait_for_children(int *pid, t_pipex data)

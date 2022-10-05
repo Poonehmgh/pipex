@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 10:33:43 by pooneh            #+#    #+#             */
-/*   Updated: 2022/10/05 13:14:13 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/10/05 13:48:40 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ void	set_data_general_case(t_pipex *data)
 	data->path[i] = NULL;
 	data->copt[i] = NULL;
 }
+
+/*here we check if it is heredoc case or a normal pipe case 
+and we set up the whole data and paths*/
 
 void	set_data_check_input(t_pipex *data, char **argv, char **envp, int argc)
 {
@@ -49,6 +52,15 @@ void	set_data_check_input(t_pipex *data, char **argv, char **envp, int argc)
 	}
 }
 
+/*this redirects the child to the related pipe and executes the command.
+if the execution does not happen, it means that the command or command path are not valid
+so we will publish an error with the error execution func. 
+In this function, the program will exit with the command being mentioned as invalid in the error message
+this is a bash behavior
+Also, bash acts like this: when one child has invalid command/path, other children wont stop. 
+all of them work in parallel and at the end the end the defect child process will produce the error.
+thats why I put the error fuc there*/
+
 void	child_redirection(t_pipex *data, int fd[MAX_FD][2], int i)
 {
 	if (i != 1)
@@ -61,6 +73,11 @@ void	child_redirection(t_pipex *data, int fd[MAX_FD][2], int i)
 	execve(data->path[i - 1], data->copt[i - 1], data->envp);
 	error_execution(data, i - 1);
 }
+
+/*the parent is responsible to make childs and pipes and set the STDIN and STDOUT to the 
+related in/out files
+additionally it adds the data and when the processes are done it waits, frees everything and closes every file descriptior
+so whatever happens in child proocesses, the parent will always free and exit*/
 
 int	main(int argc, char **argv, char **envp)
 {

@@ -6,11 +6,13 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:57:10 by pooneh            #+#    #+#             */
-/*   Updated: 2022/10/05 12:46:31 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/10/05 19:36:02 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/pipex.h"
+
+/* for heredoc I create a temporary document to put every read stuff in there and I then read from there, the rest of piping is the same */
 
 void	run_here_doc(t_pipex *data)
 {
@@ -51,7 +53,7 @@ void	here_doc_processing(t_pipex *data)
 	data->copt[i] = NULL;
 	data->path[i] = NULL;
 	data->fd_out = open(data->argv[data->argc - 1],
-			O_TRUNC | O_CREAT | O_WRONLY, 0000644);
+			O_APPEND | O_CREAT | O_WRONLY, 0000644); //here we should be apend to the outputfile if it exists, this is how bash works. (not trunctate)
 	data->hd = 1;
 	if (data->fd_out < 0)
 		general_error("error while openning the file");

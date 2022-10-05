@@ -13,7 +13,7 @@ CC = gcc
 
 MAKE = make
 
-FLAGS =  -Werror -Wextra -Wall -g 
+FLAGS =  -Werror -Wextra -Wall
 
 AR = ar cr
 
