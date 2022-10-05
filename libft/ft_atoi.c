@@ -6,26 +6,20 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 14:16:35 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/09/10 16:11:25 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/10/05 12:48:50 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
 #include<stdio.h>
 
-int	charnumeric(char c)
-{
-	if ((c >= '0' && c <= '9'))
-		return (1);
-	return (0);
-}
-
-int charnumeric2(char c)
+int	charnumeric2(char c)
 {
 	if ((c >= '0' && c <= '9') || c == '\n')
 		return (1);
 	return (0);
 }
+
 long long	str_to_nbr(char *str)
 {
 	int			i;

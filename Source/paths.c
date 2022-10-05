@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 16:15:11 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/03 13:58:38 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/10/05 11:36:40 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,13 @@ char	**path_extract(char **envp)
 {
 	char	**paths;
 	int		i;
-	char	*tmp;
 
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
-	// if (!env[i])
-	// 	err() // add error func later
-	paths = ft_split(envp[i], ':'); //+ 5 
+	if (!envp[i])
+		general_error("envp is not valid");
+	paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i])
 	{
@@ -77,12 +76,9 @@ char	*path_of_command(char *cmnd, char **envp)
 		a = ppx_strjoin(s[i], cmnd);
 		if (!access(a, F_OK))
 		{
-			j = i + 1;
-			while (s[j])
-			{
+			j = i;
+			while (s[++j])
 				free(s[j]);
-				j++;
-			}
 			free(s);
 			return (a);
 		}

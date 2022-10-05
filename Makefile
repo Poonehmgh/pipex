@@ -2,7 +2,8 @@ NAME = pipex
 
 SRC_DIR = Source
 
-SRC = $(SRC_DIR)/main2.c $(SRC_DIR)/paths.c $(SRC_DIR)/utils.c $(SRC_DIR)/heredoc.c $(SRC_DIR)/errors.c
+SRC = $(SRC_DIR)/main.c $(SRC_DIR)/paths.c $(SRC_DIR)/utils.c $(SRC_DIR)/heredoc.c $(SRC_DIR)/errors.c \
+$(SRC_DIR)/freeing.c
 
 OBJ = $(SRC: *.c=*.o)
 
@@ -12,7 +13,7 @@ CC = gcc
 
 MAKE = make
 
-FLAGS =  -Werror #add extra-Wall
+FLAGS =  -Werror -Wextra -Wall -g 
 
 AR = ar cr
 

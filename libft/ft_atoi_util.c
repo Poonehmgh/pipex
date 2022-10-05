@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_atoi_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/03 14:33:02 by pooneh            #+#    #+#             */
-/*   Updated: 2022/10/05 12:46:06 by pmoghadd         ###   ########.fr       */
+/*   Created: 2022/10/05 12:48:41 by pmoghadd          #+#    #+#             */
+/*   Updated: 2022/10/05 12:51:00 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../Include/pipex.h"
+#include"libft.h"
+#include<stdio.h>
 
-void	error_execution(t_pipex *data, int i)
+int	charnumeric(char c)
 {
-	write(2, data->copt[i][0], ft_strlen(data->copt[i][0]));
-	write(2, ": command not found", 19);
-	exit(EXIT_FAILURE);
-}
-
-void	general_error(char *msg)
-{
-	perror(msg);
-	exit(EXIT_FAILURE);
+	if ((c >= '0' && c <= '9'))
+		return (1);
+	return (0);
 }
